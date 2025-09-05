@@ -13,6 +13,7 @@ public class TelaJogoDaVelha {
 	
 	private JFrame janela;
 	private JButton[][] btn = new JButton[3][3];
+	private JButton btnReiniciar = new JButton();
 	private JLabel mensagemStatus;
 	
 	public TelaJogoDaVelha() {
@@ -23,6 +24,9 @@ public class TelaJogoDaVelha {
 		janela.setLayout(new BorderLayout());
 		
 		JPanel painelTabuleiro=new JPanel();
+		JPanel ferramentas=new JPanel();
+		ferramentas.add(btnReiniciar);
+		btnReiniciar.setText("Reiniciar");
 		painelTabuleiro.setLayout(new GridLayout(3,3));
 		
 
@@ -72,6 +76,13 @@ public class TelaJogoDaVelha {
 					}	
 				});
 				painelTabuleiro.add(btn[i][j]);
+				
+				btnReiniciar.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						reiniciarJogo();
+					}
+				});
 			}
 		}
 		
@@ -79,6 +90,7 @@ public class TelaJogoDaVelha {
 		mensagemStatus = new JLabel("É a vez do X.");
 		mensagemStatus.setHorizontalAlignment(SwingConstants.CENTER); //Centraliza o texto 
 		janela.add(mensagemStatus, BorderLayout.NORTH);
+		janela.add(ferramentas, BorderLayout.SOUTH);
 		janela.add(painelTabuleiro, BorderLayout.CENTER);
 		//Tornando tudo visível 
 		janela.setVisible(true);
@@ -140,6 +152,20 @@ public class TelaJogoDaVelha {
         }
         
 	    return false;
+	}
+	
+	private void reiniciarJogo() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				tabuleiro[i][j] = null;
+				btn[i][j].setText("");
+				btn[i][j].setEnabled(true);
+			}
+		}
+		
+		jogadorAtual = "X";
+		mensagemStatus.setText("É a vez do " + jogadorAtual + ".");
+		jogadas = 0;
 	}
 	
 	//Metodo para iniciar o jogo
